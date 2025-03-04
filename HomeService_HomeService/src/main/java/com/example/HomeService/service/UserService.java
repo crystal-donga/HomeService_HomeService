@@ -1,6 +1,9 @@
 package com.example.HomeService.service;
 
 
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -38,13 +41,24 @@ public class UserService {
 	}
 
 	public String verify(Users user) {
-		Authentication  authentication = authManager.authenticate(new UsernamePasswordAuthenticationToken(user.getEmail(),user.getPassword()));
-		if(authentication.isAuthenticated()) {
+		role userRole = user.getRole();
+		role dbRole = repo.findByEmail(user.getEmail()).getRole();
+		if(userRole!=dbRole) {
+			return "Invalid role";
+		}else {
+		 Authentication  authentication = authManager.authenticate(new UsernamePasswordAuthenticationToken(user.getEmail(),user.getPassword()));
+		  if(authentication.isAuthenticated()) {
 			String jwtToken = jwtService.generateToken(user.getEmail());
 			return jwtToken;
 		}else {
 			return "Fail";
 		}
+		}
+	}
+
+	public List<Users> getData() {
+		System.out.println("users data");
+		return repo.findAll();
 	}
 
 	
