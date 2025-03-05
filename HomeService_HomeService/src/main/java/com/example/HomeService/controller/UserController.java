@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.HomeService.model.Users;
 import com.example.HomeService.service.UserService;
 
+import jakarta.servlet.http.HttpServletResponse;
+
 @RestController
 public class UserController {
 	
@@ -25,8 +27,8 @@ public class UserController {
 	}
 	
 	@PostMapping("/auth/login")
-	public String login(@RequestBody Users user) {
-		return service.verify(user);
+	public ResponseEntity<?> login(@RequestBody Users user,HttpServletResponse response) {
+		return service.verify(user,response);
 	}
 	
 	@GetMapping("/auth/AllData")
