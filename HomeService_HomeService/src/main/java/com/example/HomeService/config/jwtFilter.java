@@ -31,7 +31,14 @@ public class jwtFilter extends OncePerRequestFilter{
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
 		String authHeader = request.getHeader("Authorization");
-		System.out.println(authHeader);
+		
+		System.out.println("Request Headers: " + request.getHeaderNames());
+	    System.out.println("authHeader: " + authHeader); // Log auth header
+	    
+	    if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+	        System.out.println("No Authorization header found!");
+	    }
+		
 		String token=null;
 		String email = null;
 		if(authHeader!=null && authHeader.startsWith("Bearer")) {

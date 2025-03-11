@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import com.example.HomeService.model.role;
+
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
@@ -23,9 +25,11 @@ public class JWTservice {
 	@Value("${jwt.secret}")
     private String secretKey;
 	 
-	public String generateToken(String email) {
+	public String generateToken(Long userId,String email,role role) {
 		Map<String,Object>claims = new HashMap<>();
-		
+		claims.put("role", role);
+		System.out.println("userId" + " " + userId);
+		claims.put("userId",userId);
 		return Jwts.builder()
 				.claims()
 				.add(claims)

@@ -21,10 +21,12 @@ public class UserController {
     @Autowired
     UserService service;
     
-	@PostMapping("/auth/register")
-	public Users register(@RequestBody Users user) {
-		return service.register(user);
-	}
+    @PostMapping("/auth/register")
+    public ResponseEntity<?> registerUser(@RequestBody Users user) {
+        Users savedUser = service.register(user);
+        return ResponseEntity.ok(savedUser);
+    }
+
 	
 	@PostMapping("/auth/login")
 	public ResponseEntity<?> login(@RequestBody Users user,HttpServletResponse response) {
